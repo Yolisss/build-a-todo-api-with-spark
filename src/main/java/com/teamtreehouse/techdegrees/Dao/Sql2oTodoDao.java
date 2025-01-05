@@ -58,7 +58,25 @@ public class Sql2oTodoDao implements TodoDao {
          }
     }
     //UPDATE
-    pub
+    public void update(Todo todo) throws DaoException{
+        String sql = "UPDATE todos(name, isCompleted) VALUES (:name, :isCompleted)";
+        //open db connection
+        try(Connection con = sql2o.open()){
+           con.createQuery(sql)
+                   .addParameter("name", todo.getName())
+                   .addParameter("isCompleted", todo.getIsCompleted())
+                   .addParameter("id", todo.getId())
+                   .executeUpdate();
+
+        } catch(Sql2oException ex){
+            ex.printStackTrace();
+            throw new DaoException(ex, "Problem updating todo item");
+        }
+    }
     //DELETE
 
+
+    @Override
+    public void delete(int id) throws DaoException {
+    }
 }

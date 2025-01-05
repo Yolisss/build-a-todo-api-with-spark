@@ -15,4 +15,7 @@ public interface TodoDao {
     //findById
     Todo findById(int id);
 
+    void update(Todo todo) throws DaoException;
+
+    void delete(int id) throws DaoException;
 }
