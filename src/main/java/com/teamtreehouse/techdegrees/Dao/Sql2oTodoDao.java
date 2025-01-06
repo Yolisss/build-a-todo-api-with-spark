@@ -74,9 +74,19 @@ public class Sql2oTodoDao implements TodoDao {
         }
     }
     //DELETE
-
-
     @Override
     public void delete(int id) throws DaoException {
+        //tell comp what to do
+        String sql = "DELETE FROM todos WHERE id = :id";
+        //open connection
+        try (Connection con = sql2o.open()) {
+            //give instructions
+            con.createQuery(sql)
+                    //identifies which item to delete
+                    .addParameter("id", id)
+                    .executeUpdate();
+        } catch (Sql2oException ex) {
+            throw new DaoException(ex, "Problem deleting todo item");
+        }
     }
 }

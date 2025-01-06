@@ -5,8 +5,7 @@ public class Todo {
     private String name;
     private String isCompleted;
 
-    public Todo(int id, String name, String isCompleted) {
-        this.id = id;
+    public Todo(String name, String isCompleted) {
         this.name = name;
         this.isCompleted = isCompleted;
     }
