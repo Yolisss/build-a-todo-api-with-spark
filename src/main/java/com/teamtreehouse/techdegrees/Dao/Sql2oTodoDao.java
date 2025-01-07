@@ -16,6 +16,8 @@ public class Sql2oTodoDao implements TodoDao {
 
     private final Sql2o sql2o;
 
+    //passing a sql2o on creation
+    //constructor dependency injection
     public Sql2oTodoDao(Sql2o sql2o) {
         this.sql2o = sql2o;
     }

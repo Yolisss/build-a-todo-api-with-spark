@@ -25,15 +25,6 @@ public class Sql2oTodoDaoTest {
         dao = new Sql2oTodoDao(sql2o);
         //keep connection open through entire test so it doesn't get wiped out
         conn = sql2o.open();
-
-        System.out.println("DAO initialized: " + dao);
-        System.out.println("Connection established: " + conn);
-
-
-        // Verify table creation
-        String checkTables = "SHOW TABLES;";
-        List<String> tables = conn.createQuery(checkTables).executeAndFetch(String.class);
-        System.out.println("Tables in database: " + tables);
     }
 
     @After
@@ -43,7 +34,7 @@ public class Sql2oTodoDaoTest {
 
     @Test
     public void addingNewTodoSetsId() throws Exception {
-        Todo todo = new Todo("Test", "true");
+        Todo todo = new Todo("Test", false);
         int originalTodoId = todo.getId();
 
         dao.add(todo);

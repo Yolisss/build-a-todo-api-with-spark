@@ -13,7 +13,6 @@ public class App {
         if(args.length > 0){
             //if it doesn't pass both params
             if(args.length != 2){
-                System.out.println("java Api <port> <datasource>");
                 System.exit(0);
             }
             //writing out port from string number
@@ -26,8 +25,6 @@ public class App {
         //talking to the db
         Sql2o sql2o = new Sql2o(
                 String.format("%s;INIT=RUNSCRIPT from 'classpath:db/init.sql'", datasource), "", "");
-
-        System.out.println(System.getProperty("java.class.path"));
 
         get("/blah", (req, res) -> "Hello!");
 
