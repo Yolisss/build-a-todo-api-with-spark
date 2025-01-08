@@ -71,8 +71,19 @@ public class App {
            }
         });
 
+        delete("/api/v1/todos/:id", "application/json", (req, res) ->{
+            int id = Integer.parseInt(req.params("id"));
+            Todo existingItem = dao.findById(id);
 
-
+            if(existingItem != null){
+                dao.delete(id);
+                res.status(204);
+                return "";
+            } else {
+                res.status(404);
+                return "Unable to find item you want to delete";
+            }
+        });
 
         // Ensuring all responses are in JSON format
         after((req, res) -> {
