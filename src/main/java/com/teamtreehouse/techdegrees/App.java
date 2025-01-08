@@ -13,33 +13,36 @@ public class App {
 
     public static void main(String[] args) {
 
-//        //creates conn to db
-//        Sql2o sql2o = new Sql2o("jdbc:h2:~/todos.db;INIT=RUNSCRIPT from 'classpath:db/init.sql'");
-//        System.out.println("Database initialized successfully!");
-//
-//        //handle db operations
-//        TodoDao dao = new Sql2oTodoDao(sql2o);
-//        Gson gson = new Gson();
-//
-//        //get("/api/v1/todos", "application/json", (req, res) ->
-//                        dao.findAll(), gson::toJson);
-
-
-
-        try {
+        //creates conn to db
             Sql2o sql2o = new Sql2o("jdbc:h2:~/todos.db;INIT=RUNSCRIPT from 'classpath:db/init.sql'", "", "");
             System.out.println("Database initialized successfully!");
 
+            //handle db operations
             TodoDao dao = new Sql2oTodoDao(sql2o);
             Gson gson = new Gson();
 
-            get("/api/v1/todos", "application/json", (req, res) ->
-                    dao.findAll(), gson::toJson);
 
-        } catch (Exception e) {
-            System.out.println("An error occurred: " + e.getMessage());
-            e.printStackTrace();
-        }
+            post("/api/v1/todos", "application/json", (req, res) ->{
+                Todo newTodoItem = gson.fromJson(req.body(), Todo.class);
+                dao.add(newTodoItem);
+                res.status(201);
+                return newTodoItem;
+            }, gson::toJson);
+
+        //GET list of todos
+        get("/api/v1/todos", "application/json", (req, res) ->
+                dao.findAll(), gson::toJson);
+
+        //GET a specific item from list
+        get("/api/v1/todos/:id", "applicatin/json", (req, res) ->{
+            int id = Integer.parseInt(req.params("id"));
+            Todo specificTodo = dao.findById(id);
+//            if(specificTodo == null){
+//                throw new ApiError(404, "Could noto find course with id " + id);
+//            }
+            return specificTodo;
+        }, gson::toJson);
+
 
         // Ensuring all responses are in JSON format
         after((req, res) -> {
