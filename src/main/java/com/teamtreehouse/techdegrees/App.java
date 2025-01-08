@@ -27,7 +27,7 @@ public class App {
 
 
         try {
-            Sql2o sql2o = new Sql2o("jdbc:h2:~/todos.db;INIT=RUNSCRIPT from 'classpath:db/init.sql'");
+            Sql2o sql2o = new Sql2o("jdbc:h2:~/todos.db;INIT=RUNSCRIPT from 'classpath:db/init.sql'", "", "");
             System.out.println("Database initialized successfully!");
 
             TodoDao dao = new Sql2oTodoDao(sql2o);
