@@ -37,17 +37,48 @@ public class App {
         get("/api/v1/todos/:id", "applicatin/json", (req, res) ->{
             int id = Integer.parseInt(req.params("id"));
             Todo specificTodo = dao.findById(id);
-//            if(specificTodo == null){
-//                throw new ApiError(404, "Could noto find course with id " + id);
-//            }
+            if(specificTodo == null){
+                 res.status(404);
+               return "Todo item not found";
+            }
             return specificTodo;
         }, gson::toJson);
+
+        put("/api/v1/todos/:id", "application/json", (req, res) ->{
+           int id = Integer.parseInt(req.params("id"));
+           Todo existingItem = dao.findById(id);
+           System.out.printf("updated item here: %s%n", existingItem);
+
+           if(existingItem == null){
+               res.status(404);
+               return "To-do item not found";
+           }
+
+           //parse the req body (JSON) to get new values
+            Todo updatedData =  gson.fromJson(req.body(), Todo.class);
+
+           existingItem.setName(updatedData.getName());
+           existingItem.setIsCompleted(updatedData.getIsCompleted());
+
+           boolean success = dao.update(existingItem);
+
+           if(success){
+               res.status(200);
+               return gson.toJson(existingItem);
+           } else {
+               res.status(500);
+               return "Failed to update the todo item";
+           }
+        });
+
+
 
 
         // Ensuring all responses are in JSON format
         after((req, res) -> {
             res.type("application/json");
         });
+
     }
 
 }

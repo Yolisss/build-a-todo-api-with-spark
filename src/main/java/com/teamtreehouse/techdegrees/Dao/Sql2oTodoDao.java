@@ -60,8 +60,8 @@ public class Sql2oTodoDao implements TodoDao {
          }
     }
     //UPDATE
-    public void update(Todo todo) throws DaoException{
-        String sql = "UPDATE todos(name, isCompleted) VALUES (:name, :isCompleted)";
+    public boolean update(Todo todo) throws DaoException{
+        String sql = "UPDATE todos SET name = :name, isCompleted = :isCompleted WHERE id = :id";
         //open db connection
         try(Connection con = sql2o.open()){
            con.createQuery(sql)
@@ -74,6 +74,7 @@ public class Sql2oTodoDao implements TodoDao {
             ex.printStackTrace();
             throw new DaoException(ex, "Problem updating todo item");
         }
+        return true;
     }
     //DELETE
     @Override

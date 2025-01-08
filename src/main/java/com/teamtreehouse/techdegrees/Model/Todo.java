@@ -33,4 +33,10 @@ public class Todo {
     public void setIsCompleted(boolean isCompleted) {
         this.isCompleted = isCompleted;
     }
+
+    @Override
+    public String toString() {
+        return String.format("Todo{id=%d, name='%s', isCompleted=%b}", id, name, isCompleted);
+    }
+
 }
