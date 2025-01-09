@@ -9,7 +9,13 @@ angular.module('todoListApp')
     var todo = new Todo();
     todo.name = 'New task!'
     todo.completed = false;
-    $scope.todos.unshift(todo);
+
+    todo.$save(function(saveTodo){
+    //on successful save, add the new to-do to the list
+        $scope.todos.unshift(todo);
+    }, function(error){
+        console.error("Failed to save the todo:", error);
+    })
   };
   
 })

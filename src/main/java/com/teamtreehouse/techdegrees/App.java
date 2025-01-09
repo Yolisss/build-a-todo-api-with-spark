@@ -12,6 +12,7 @@ import static spark.Spark.*;
 public class App {
 
     public static void main(String[] args) {
+        staticFiles.location("/public");
 
         //creates conn to db
             Sql2o sql2o = new Sql2o("jdbc:h2:~/todos.db;INIT=RUNSCRIPT from 'classpath:db/init.sql'", "", "");
