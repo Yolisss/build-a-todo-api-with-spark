@@ -34,7 +34,7 @@ public class App {
                 dao.findAll(), gson::toJson);
 
         //GET a specific item from list
-        get("/api/v1/todos/:id", "applicatin/json", (req, res) ->{
+        get("/api/v1/todos/:id", "application/json", (req, res) ->{
             int id = Integer.parseInt(req.params("id"));
             Todo specificTodo = dao.findById(id);
             if(specificTodo == null){
