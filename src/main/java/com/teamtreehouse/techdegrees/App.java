@@ -15,20 +15,19 @@ public class App {
         staticFiles.location("/public");
 
         //creates conn to db
-            Sql2o sql2o = new Sql2o("jdbc:h2:~/todos.db;INIT=RUNSCRIPT from 'classpath:db/init.sql'", "", "");
-            System.out.println("Database initialized successfully!");
+        Sql2o sql2o = new Sql2o("jdbc:h2:~/todos.db;INIT=RUNSCRIPT from 'classpath:db/init.sql'", "", "");
+        System.out.println("Database initialized successfully!");
 
-            //handle db operations
-            TodoDao dao = new Sql2oTodoDao(sql2o);
-            Gson gson = new Gson();
+        //handle db operations
+        TodoDao dao = new Sql2oTodoDao(sql2o);
+        Gson gson = new Gson();
 
-
-            post("/api/v1/todos", "application/json", (req, res) ->{
-                Todo newTodoItem = gson.fromJson(req.body(), Todo.class);
-                dao.add(newTodoItem);
-                res.status(201);
-                return newTodoItem;
-            }, gson::toJson);
+        post("/api/v1/todos", "application/json", (req, res) ->{
+            Todo newTodoItem = gson.fromJson(req.body(), Todo.class);
+            dao.add(newTodoItem);
+            res.status(201);
+            return newTodoItem;
+        }, gson::toJson);
 
         //GET list of todos
         get("/api/v1/todos", "application/json", (req, res) ->
@@ -90,7 +89,5 @@ public class App {
         after((req, res) -> {
             res.type("application/json");
         });
-
     }
-
 }
